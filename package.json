@@ -1,0 +1,30 @@
+{
+  "name": "authswitch-demo",
+  "version": "1.0.0",
+  "description": "AuthSwitch Demo - Simulated Authentication Workflow & Protected Route State Machine",
+  "main": "src/server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "test": "node --test --test-reporter=tap test/api.test.js"
+  },
+  "keywords": [
+    "authentication",
+    "express",
+    "state-machine",
+    "captcha-demo",
+    "otp",
+    "telegram"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "express-rate-limit": "^7.5.0",
+    "express-session": "^1.18.1",
+    "helmet": "^8.0.0"
+  }
+}

