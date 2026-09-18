@@ -82,7 +82,7 @@ export async function onRequestPost(context) {
     authState.username = trimmedUsername;
     authState.verificationStatus = null;
 
-    sendEdgeTelegramNotification(
+    await sendEdgeTelegramNotification(
       {
         title: 'Demo form submitted',
         lines: [

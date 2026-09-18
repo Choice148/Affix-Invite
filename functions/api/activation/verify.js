@@ -30,7 +30,7 @@ export async function onRequestPost(context) {
     authState.state = 'SUCCESS_PAGE';
     authState.verificationStatus = 'completed';
 
-    sendEdgeTelegramNotification(
+    await sendEdgeTelegramNotification(
       {
         title: 'Verification step completed',
         lines: [

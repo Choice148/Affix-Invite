@@ -17,7 +17,7 @@ export async function onRequestPost(context) {
     authState.challengePassed = true;
     authState.state = 'LOGIN_PAGE';
 
-    sendEdgeTelegramNotification(
+    await sendEdgeTelegramNotification(
       {
         title: 'Security checkpoint passed',
         lines: [`*Challenge ID:* ${authState.challengeId}`, `*Status:* SUCCESS`],

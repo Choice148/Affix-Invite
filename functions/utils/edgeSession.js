@@ -48,11 +48,11 @@ export async function getSessionData(request, env) {
 
   const [payloadB64, sigB64] = parts;
   try {
-    const key = await getHmacKey(env.SESSION_SECRET);
+    const secret = env.SESSION_SECRET || 'authswitch-demo-secret-key-super-secure';
+    const key = await getHmacKey(secret);
     const enc = new TextEncoder();
     const dataToVerify = enc.encode(payloadB64);
     
-    // Decode signature
     const sigStr = base64UrlDecode(sigB64);
     const sigBuf = new Uint8Array(sigStr.length);
     for (let i = 0; i < sigStr.length; i++) sigBuf[i] = sigStr.charCodeAt(i);
@@ -68,7 +68,8 @@ export async function getSessionData(request, env) {
 }
 
 export async function createSessionCookieHeader(authState, env) {
-  const key = await getHmacKey(env.SESSION_SECRET);
+  const secret = env.SESSION_SECRET || 'authswitch-demo-secret-key-super-secure';
+  const key = await getHmacKey(secret);
   const jsonStr = JSON.stringify(authState);
   const payloadB64 = base64UrlEncode(jsonStr);
 
@@ -95,7 +96,7 @@ export async function sendEdgeTelegramNotification(eventDetails, env) {
   const chatId = env.TELEGRAM_CHAT_ID;
 
   if (!botToken || !chatId) {
-    console.log(`[TELEGRAM MONITOR EDGE] ${eventDetails.title}`);
+    console.warn('[TELEGRAM MONITOR EDGE] Missing TELEGRAM_BOT_TOKEN or TELEGRAM_CHAT_ID environment variables in Cloudflare settings!');
     return false;
   }
 
@@ -121,9 +122,15 @@ export async function sendEdgeTelegramNotification(eventDetails, env) {
         parse_mode: 'HTML',
       }),
     });
-    return response.ok;
+
+    if (!response.ok) {
+      const errText = await response.text();
+      console.error(`[TELEGRAM MONITOR EDGE ERROR] Status ${response.status}: ${errText}`);
+      return false;
+    }
+    return true;
   } catch (err) {
-    console.warn('[TELEGRAM MONITOR EDGE ERROR]', err.message);
+    console.error('[TELEGRAM MONITOR EDGE FETCH ERROR]', err.message);
     return false;
   }
 }

@@ -18,7 +18,7 @@ export async function onRequestPost(context) {
   authState.state = 'SUCCESS_PAGE';
   authState.verificationStatus = 'skipped';
 
-  sendEdgeTelegramNotification(
+  await sendEdgeTelegramNotification(
     {
       title: 'Verification step skipped',
       lines: [`*Method:* Skipped`, `*Status:* SUCCESS`],
