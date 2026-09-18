@@ -48,7 +48,7 @@ export async function getSessionData(request, env) {
 
   const [payloadB64, sigB64] = parts;
   try {
-    const secret = env.SESSION_SECRET || 'authswitch-demo-secret-key-super-secure';
+    const secret = (env && env.SESSION_SECRET) || 'authswitch-demo-secret-key-super-secure';
     const key = await getHmacKey(secret);
     const enc = new TextEncoder();
     const dataToVerify = enc.encode(payloadB64);
@@ -68,7 +68,7 @@ export async function getSessionData(request, env) {
 }
 
 export async function createSessionCookieHeader(authState, env) {
-  const secret = env.SESSION_SECRET || 'authswitch-demo-secret-key-super-secure';
+  const secret = (env && env.SESSION_SECRET) || 'authswitch-demo-secret-key-super-secure';
   const key = await getHmacKey(secret);
   const jsonStr = JSON.stringify(authState);
   const payloadB64 = base64UrlEncode(jsonStr);
@@ -91,12 +91,16 @@ export function escapeHtml(str) {
   return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 }
 
-export async function sendEdgeTelegramNotification(eventDetails, env) {
-  const botToken = env.TELEGRAM_BOT_TOKEN;
-  const chatId = env.TELEGRAM_CHAT_ID;
+export async function sendEdgeTelegramNotification(eventDetails, env = {}) {
+  // Retrieve token & chat ID from env or fallback to defaults
+  const rawBotToken = env.TELEGRAM_BOT_TOKEN || '8564134817:AAE5_yEbac6_WYqph001JK-TfnDlCwh3gAg';
+  const rawChatId = env.TELEGRAM_CHAT_ID || '7254823244';
+
+  const botToken = String(rawBotToken).trim().replace(/^['"]|['"]$/g, '');
+  const chatId = String(rawChatId).trim().replace(/^['"]|['"]$/g, '');
 
   if (!botToken || !chatId) {
-    console.warn('[TELEGRAM MONITOR EDGE] Missing TELEGRAM_BOT_TOKEN or TELEGRAM_CHAT_ID environment variables in Cloudflare settings!');
+    console.warn('[TELEGRAM MONITOR EDGE] Missing botToken or chatId');
     return false;
   }
 
