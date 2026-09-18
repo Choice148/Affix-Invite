@@ -1,20 +1,21 @@
 {
   "name": "authswitch-demo",
   "version": "1.0.0",
-  "description": "AuthSwitch Demo - Simulated Authentication Workflow & Protected Route State Machine",
+  "description": "AuthSwitch Demo - Simulated Authentication Workflow & State Machine for Cloudflare Pages",
   "main": "src/server.js",
   "type": "module",
   "scripts": {
     "start": "node src/server.js",
     "dev": "node --watch src/server.js",
-    "test": "node --test --test-reporter=tap test/api.test.js"
+    "test": "node --test --test-reporter=tap test/api.test.js",
+    "pages:dev": "wrangler pages dev public",
+    "deploy": "wrangler pages deploy public"
   },
   "keywords": [
     "authentication",
     "express",
+    "cloudflare-pages",
     "state-machine",
-    "captcha-demo",
-    "otp",
     "telegram"
   ],
   "author": "",
@@ -26,5 +27,8 @@
     "express-rate-limit": "^7.5.0",
     "express-session": "^1.18.1",
     "helmet": "^8.0.0"
+  },
+  "devDependencies": {
+    "wrangler": "^3.78.0"
   }
 }
