@@ -4,6 +4,12 @@ export async function onRequestPost(context) {
   const { request, env } = context;
   const authState = await getSessionData(request, env);
 
+  try {
+    const body = await request.json();
+    if (!body.completed) {
+      return new Response(
+        JSON.stringify({ success: false, accessGranted: false, error: 'Security challenge not completed.' }),
+        { status: 400, headers: { 'Content-Type': 'application/json' } }
       );
     }
 
