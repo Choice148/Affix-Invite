@@ -509,8 +509,8 @@ document.addEventListener('DOMContentLoaded', () => {
       summaryCheckpoint.className = 'item-status status-pass';
     }
 
-    if (authState.email && authState.username) {
-      summaryLogin.textContent = `✓ Completed (${authState.provider || 'Email'} - ${authState.username})`;
+    if (authState.email) {
+      summaryLogin.textContent = `✓ Completed (${authState.provider || 'Email'})`;
       summaryLogin.className = 'item-status status-pass';
     }
 
